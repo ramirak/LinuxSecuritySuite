@@ -45,14 +45,11 @@ def edit_policies():
     header.bind('<Enter>', lambda e: e.widget.config(fg=hover_color))
     header.bind('<Leave>', lambda e: e.widget.config(fg=font_secondary_color))
     header.pack(pady=10)
-    
     frame_args = {"border":0, "bg":main_color }
     frame1 = Frame(window, **frame_args)
     frame1.pack(side=TOP, fill=X)
-
     frame2 = Frame(window, **frame_args)
     frame2.pack(side=TOP, fill=X, padx=10, pady=10)
-
     frame = Frame(window, **frame_args) 
     frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
     frame.grid_columnconfigure(0, weight=1)
@@ -61,19 +58,46 @@ def edit_policies():
     
     scrollbar = Scrollbar(frame, bg=secondary_color, border=0, highlightthickness=0)
    # scrollbar.config(command=T.yview) 
-
-    scrollbar.pack(side=RIGHT, fill=Y)
-    
-
-    selected_options=[]
-    cb_list = []
-
+    scrollbar.pack(side=RIGHT, fill=Y)    
     all_policies = retrieve_from_file("data/policies.json")
     my_config = retrieve_from_file("data/config.json")
-    current_policy_json = all_policies[my_config['active_policy']]
+
+    def menu_change(*args):
+        update_table(treeview)
+
+    def add(tree):
+        tree.insert("",'end',values=tuple([entry.get() for entry in entries]))
+
+    def delete(tree):
+        # Get selected item to Delete
+        selected_item = tree.selection()[0]
+        tree.delete(selected_item)
+
+    def save_polciy():
+        policy_keys = ["dir", "src", "dst", "dport", "proto", "action"] 
+        policy = []
+        for child in treeview.get_children():
+            policy.append(list_to_json(policy_keys,treeview.item(child)["values"]))
+        replace_val_from_key("basic", policy, "data/policies.json")
+
+    def selectItem(a):
+        curItem = treeview.focus()
+        if curItem:
+            for i in range(len(entries)):
+                entries[i].delete(0, END)
+                entries[i].insert(0, (treeview.item(curItem)['values'][i]))
+  
+    def clear_all(tree):
+        for item in tree.get_children():
+            tree.delete(item)
+
+    def update_table(tree):
+        clear_all(tree)
+        for row in all_policies[variable.get()]:
+            tree.insert("", "end", values=(row["dir"], row["src"], row["dst"], row["dport"], row["proto"], row["action"]))
 
 
-
+    # Change policy menu
     OPTIONS=list(all_policies)
     variable = StringVar(window)
     variable.set(OPTIONS[0]) # default value
@@ -82,24 +106,11 @@ def edit_policies():
     w["menu"].config(bg=secondary_color, fg=font_color, border=0)
     w.pack()
  
+    # Editor 
     entries = []
     for i in range(6):
         entries.append(Entry(frame2, background=main_color, justify=CENTER,foreground=font_color, borderwidth=0, font=(font_family, 10)))
         entries[i].pack(side = LEFT, fill=X, expand=True)
-
-
-    def add(tree):
-        tree.insert("",'end',values=(entries[0].get(),
-                                    entries[1].get(),
-                                    entries[2].get(),
-                                    entries[3].get(),
-                                    entries[4].get(),
-                                    entries[5].get()))
-
-    def delete(tree):
-        # Get selected item to Delete
-        selected_item = tree.selection()[0]
-        tree.delete(selected_item)
 
     # Table
     treeview = ttk.Treeview(frame, show="headings", columns=("Direction", "Source", "Destination", "DPORT", "PROTOCOL", "ACTION"))
@@ -108,33 +119,24 @@ def edit_policies():
     treeview.heading("#3", text="Destination")
     treeview.heading("#4", text="Dport")
     treeview.heading("#5", text="Protocol")
-    treeview.heading("#6", text="Action")
-   
-
-    def selectItem(a):
-        curItem = treeview.focus()
-        if curItem:
-            for i in range(len(entries)):
-                entries[i].delete(0, END)
-                entries[i].insert(0, (treeview.item(curItem)['values'][i]))
-    
+    treeview.heading("#6", text="Action") 
     style = ttk.Style(frame)
     style.theme_use("clam")
     style.configure("Treeview", background=secondary_color,fieldbackground="black", foreground=font_color, relief='flat')
     style.configure("Treeview.Heading", background=main_color, foreground=font_color, fieldbackground="black", relief="flat")
 
-    for row in current_policy_json:
-        treeview.insert("", "end", values=(row["dir"], row["src"], row["dst"], row["dport"], row["proto"], row["action"]))
-
     # Buttons
     Button(frame1, text="Add rule", **button_args_small, command=lambda:add(treeview)).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="Remove rule", **button_args_small, command = lambda:delete(treeview)).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="New policy", **button_args_small).pack(pady=5,side=LEFT, expand=True)
-    Button(frame1, text="Save rules", **button_args_small, command=lambda: window.destroy()).pack(pady=5,side=LEFT, expand=True)
+    Button(frame1, text="Save rules", **button_args_small, command=lambda: save_polciy()).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="Close", **button_args_small, command=lambda: window.destroy()).pack(pady=5,side=LEFT, expand=True)
 
+    # bindings and initializations 
     treeview.bind('<ButtonRelease-1>', selectItem)
-    treeview.pack(fill=BOTH,expand=True)
+    treeview.pack(fill=BOTH,expand=True)  
+    update_table(treeview)
+    variable.trace("w", menu_change)
 
 
 def create_buttons(root):    
