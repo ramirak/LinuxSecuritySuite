@@ -78,7 +78,9 @@ def edit_policies():
         policy = []
         for child in treeview.get_children():
             policy.append(list_to_json(policy_keys,treeview.item(child)["values"]))
-        replace_val_from_key("basic", policy, "data/policies.json")
+        replace_val_from_key(variable.get(), policy, "data/policies.json")
+        nonlocal all_policies
+        all_policies = retrieve_from_file("data/policies.json")
 
     def selectItem(a):
         curItem = treeview.focus()
