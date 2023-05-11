@@ -11,7 +11,7 @@ def load_policy(policy):
     clear_chains()
     # Load all rules in this policy
     for rule in policy:
-        for proto in rule['proto']:
+        for proto in rule['proto'].split():
             set_rule(rule['dir'], rule['src'], rule['dst'], rule['dport'], proto, rule['action'])
 
 

@@ -5,7 +5,7 @@ import socket
 def set_rule(direction, s_host, d_host, d_port, protocol, action):
     ip_0 = "sudo iptables -A " + direction + " -m state --state NEW,ESTABLISHED"
     if protocol != "any" and d_port != "any":
-        ip_0 += " -p " + protocol + " --match multiport --dport " + d_port
+        ip_0 += " -p " + protocol + " --match multiport --dport " + str(d_port)
     if s_host != "any":
         ip_0 += " -s " + s_host
     if d_host != "any":
@@ -18,7 +18,7 @@ def set_rule(direction, s_host, d_host, d_port, protocol, action):
     if action == "ACCEPT":
         ip_1 += " -m state --state RELATED,ESTABLISHED"
     if protocol != "any" and d_port != "any":
-        ip_1 += " -p " + protocol + " --match multiport --sport " + d_port
+        ip_1 += " -p " + protocol + " --match multiport --sport " + str(d_port)
     if d_host != "any":
         ip_1 += " -s " + d_host
     if s_host != "any":
