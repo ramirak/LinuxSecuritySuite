@@ -11,7 +11,7 @@ def create_editor_buttons(root, frame1, frame2, treeview):
 
     # Entries for editor buttons 
     entries = []
-    for i in range(6):
+    for i in range(7):
         entries.append(Entry(frame2, background=main_color, justify=CENTER,foreground=font_color, borderwidth=0, font=(font_family, 10)))
         entries[i].pack(side = LEFT, fill=X, expand=True)
 
@@ -24,7 +24,7 @@ def create_editor_buttons(root, frame1, frame2, treeview):
     Button(frame1, text="Close", **button_args_small, command=lambda: root.destroy()).pack(pady=5,side=LEFT, expand=True)
 
     def save_polciy():
-        policy_keys = ["dir", "src", "dst", "dport", "proto", "action"] 
+        policy_keys = ["dir", "src", "dst", "sport", "dport", "proto", "action"] 
         policy = []
         for child in treeview.get_children():
             policy.append(list_to_json(policy_keys,treeview.item(child)["values"]))
@@ -40,7 +40,7 @@ def create_editor_buttons(root, frame1, frame2, treeview):
     def update_table(tree):
         clear_all_tree_vals(tree)
         for row in all_policies[menu_var.get()]:
-            tree.insert("", "end", values=(row["dir"], row["src"], row["dst"], row["dport"], row["proto"], row["action"]))
+            tree.insert("", "end", values=(row["dir"], row["src"], row["dst"], row["sport"], row["dport"], row["proto"], row["action"]))
 
     def menu_change(*args):
         update_table(treeview)
@@ -85,7 +85,7 @@ def edit_policies():
       
                        
     # Create table
-    treeview = create_tree(BOTTOM_FRAME, ["Direction", "Source", "Destination", "D-Port", "Protocol", "Action"])
+    treeview = create_tree(BOTTOM_FRAME, ["Direction", "Source", "Destination", "S-Port", "D-Port", "Protocol", "Action"])
 
     # Configure rules scrolling
     scrollbar = Scrollbar(treeview, bg=main_color, border=1, highlightthickness=0)

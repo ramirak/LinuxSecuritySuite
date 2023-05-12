@@ -4,7 +4,7 @@ from tkinter import ttk
 from json_handler import *
 from ui_tools import *
 from policy_editor import *
-from policy import apply_current_policy
+from policy import apply_current_policy, apply_blocklist
 
 title = "Linux Security Suite"
 
@@ -18,6 +18,7 @@ def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
               Button(LEFT_FRAME,text="Exit", **button_args, command=lambda:root.destroy()), 
               Button(RIGHT_FRAME,text="Apply policy", **button_args, command=lambda:apply_current_policy()),
               Button(RIGHT_FRAME,text="Edit policies", **button_args, command=lambda:edit_policies()),
+              Button(RIGHT_FRAME,text="Apply blocklist", **button_args, command=lambda:apply_blocklist()),
               Button(RIGHT_FRAME,text="Firewall Logs", **button_args)]
     for b in buttons:
         b.bind('<Enter>', lambda e: e.widget.config(bg=hover_color))

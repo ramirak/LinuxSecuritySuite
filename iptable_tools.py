@@ -2,10 +2,12 @@ import subprocess
 import socket
 
 
-def set_rule(direction, s_host, d_host, d_port, protocol, action):
+def set_rule(direction, s_host, d_host, s_port, d_port, protocol, action):
     ip_0 = "sudo iptables -A " + direction + " -m state --state NEW,ESTABLISHED"
-    if protocol != "any" and d_port != "any":
-        ip_0 += " -p " + protocol + " --match multiport --dport " + str(d_port)
+    if protocol != "any" and s_port != "any":
+        ip_0 += " -p " + protocol + " --sport " + str(s_port)
+        if d_port != "any":
+            ip_0 += " --dport " + str(d_port)
     if s_host != "any":
         ip_0 += " -s " + s_host
     if d_host != "any":
@@ -17,8 +19,10 @@ def set_rule(direction, s_host, d_host, d_port, protocol, action):
     ip_1 = "sudo iptables -A " + direction
     if action == "ACCEPT":
         ip_1 += " -m state --state RELATED,ESTABLISHED"
-    if protocol != "any" and d_port != "any":
-        ip_1 += " -p " + protocol + " --match multiport --sport " + str(d_port)
+    if protocol != "any" and s_port != "any":
+        ip_1 += " -p " + protocol + " --dport " + str(s_port)
+        if d_port != "any":
+            ip_1 += " --sport " + str(d_port)
     if d_host != "any":
         ip_1 += " -s " + d_host
     if s_host != "any":
@@ -31,14 +35,26 @@ def set_rule(direction, s_host, d_host, d_port, protocol, action):
     output, error = proc2.communicate()
     
 
+def set_rule_block(chain, d_host):
+    rule = "sudo iptables -A " + chain + " -m state --state NEW,ESTABLISHED,RELATED -d " + d_host + " -j DROP"
+    proc = subprocess.Popen(rule.split(), stdout=subprocess.PIPE)
+    output, error = proc.communicate()
+
+
+def set_forward_to_chain(chain1, chain2): 
+    rule = "sudo iptables -A " + chain1 + " -j " + chain2
+    proc = subprocess.Popen(rule.split(), stdout=subprocess.PIPE)
+    output, error = proc.communicate()
+
+
 def switch_dir(direction):
     if direction == "OUTPUT":
         return "INPUT"
     return "OUTPUT"
 
 
-def clear_chains():
-    subprocess.Popen("sudo iptables -F".split(), stdout=subprocess.PIPE)
+def clear_chains(chain):
+    subprocess.Popen(("sudo iptables -F " + chain).split(), stdout=subprocess.PIPE)
 
 
 def show_chains():
@@ -51,6 +67,11 @@ def switch_mode(action):
     c2 = "sudo iptables -P OUTPUT " + action
     proc = subprocess.Popen(c1.split(), stdout=subprocess.PIPE)
     proc = subprocess.Popen(c2.split(), stdout=subprocess.PIPE)
+
+
+def create_chain(chain): 
+    c = "sudo iptables -N " + chain
+    proc = subprocess.Popen(c.split(), stdout=subprocess.PIPE)
 
 
 def is_valid_ip(address):
