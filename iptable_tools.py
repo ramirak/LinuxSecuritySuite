@@ -103,7 +103,7 @@ def is_valid_ip(address):
 
 def save_all():
     c1 = "sudo iptables-save"
-    c2 = "sudo tee /etc/iptables/iptables.rules > /dev/null"
+    c2 = "sudo tee /etc/iptables/iptables.rules"
     
     proc1 = subprocess.Popen(c1.split(), stdout=subprocess.PIPE)
     proc2 = subprocess.Popen(c2.split(), stdin=proc1.stdout, stdout=subprocess.PIPE)
