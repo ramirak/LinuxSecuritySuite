@@ -15,8 +15,8 @@ def create_default_policy():
 
     policies_file = data_folder + "/policies.json"
     if not os.path.isfile(policies_file):
-        policy = {"hero": [{"dir": "OUTPUT", "src": "any", "dst": "any", "dport": "any", "proto": "any", "action": "ACCEPT"}, 
-                           {"dir": "INPUT", "src": "any", "dst": "any","dport": "any", "proto": "any", "action": "ACCEPT"}]}
+        policy = {"Accept-all": [{"dir": "OUTPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}, 
+                                 {"dir": "INPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}]}
         save_to_file(policies_file, policy)
 
 
@@ -25,7 +25,7 @@ def create_default_config():
 
     conf_file = "data/config.json"
     if not os.path.isfile(conf_file):
-        config = {"active_policy":"basic"}
+        config = {"active_policy":"Accept-all"}
         save_to_file(conf_file, config)
         
 
