@@ -29,6 +29,7 @@ def create_main_window():
     root = Tk()
     root.configure(bg=main_color)
     root.minsize(window_width, window_height)
+    root.resizable(True, True)
     root.title(title) 
     center(root)
     

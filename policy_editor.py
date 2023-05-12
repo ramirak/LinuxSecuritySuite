@@ -62,6 +62,7 @@ def edit_policies():
     window = Toplevel()
     window.minsize(width=window_width, height=window_height)
     window.configure(bg=main_color)
+    window.resizable(True, True)
     center(window)
 
     # Set title
