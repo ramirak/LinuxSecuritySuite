@@ -34,6 +34,8 @@ def load_policy(policy):
     set_forward_to_chain("OUTPUT", "LOG_AND_DROP")
    
     set_rule_return("BLOCKLIST")
+    print("Saving rulebase to /etc/iptables..")
+    save_all()
     print("Done!\n---------------------------------")
 
 
@@ -56,5 +58,7 @@ def apply_blocklist():
         print("Blocking " + addr)
         set_rule_block("BLOCKLIST", addr)
     set_rule_return("BLOCKLIST")
+    print("Saving rulebase to /etc/iptables..")
+    save_all()
     print("Done!")
 

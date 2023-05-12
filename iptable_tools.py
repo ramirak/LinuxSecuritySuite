@@ -99,3 +99,18 @@ def is_valid_ip(address):
         return 1
     except socket.error:
         return 0
+
+
+def save_all():
+    c1 = "sudo iptables-save"
+    c2 = "sudo tee /etc/iptables/iptables.rules > /dev/null"
+    
+    proc1 = subprocess.Popen(c1.split(), stdout=subprocess.PIPE)
+    proc2 = subprocess.Popen(c2.split(), stdin=proc1.stdout, stdout=subprocess.PIPE)
+    proc2.communicate()
+
+
+    
+
+
+
