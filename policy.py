@@ -18,15 +18,16 @@ def load_policy(policy):
     print("Clearing old chains..")
     clear_chains("INPUT")
     clear_chains("OUTPUT")
+
+    print("Forwarding to BLOCKLIST before checking main chains..")
+    set_forward_to_chain("INPUT", "BLOCKLIST")
+    set_forward_to_chain("OUTPUT", "BLOCKLIST") 
+
     # Load all rules in this policy
     print("Setting policy..")
     for rule in policy:
         for proto in rule['proto'].split():
             set_rule(rule['dir'], rule['src'], rule['dst'], rule['sport'], rule['dport'], proto, rule['action'])
-
-    print("Forwarding other packets to BLOCKLIST..")
-    set_forward_to_chain("INPUT", "BLOCKLIST")
-    set_forward_to_chain("OUTPUT", "BLOCKLIST") 
     
     print("Forwarding other packets to LOG_AND_DROP..")
     set_forward_to_chain("INPUT", "LOG_AND_DROP")
