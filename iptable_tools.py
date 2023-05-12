@@ -4,8 +4,10 @@ import socket
 
 def set_rule(direction, s_host, d_host, s_port, d_port, protocol, action):
     ip_0 = "sudo iptables -A " + direction + " -m state --state NEW,ESTABLISHED"
-    if protocol != "any" and s_port != "any":
-        ip_0 += " -p " + protocol + " --sport " + str(s_port)
+    if protocol == "tcp" or protocol == "udp":
+        ip_0 += " -p " + protocol
+        if s_port != "any":
+            ip_0 += " --sport " + str(s_port)
         if d_port != "any":
             ip_0 += " --dport " + str(d_port)
     if s_host != "any":
@@ -18,9 +20,11 @@ def set_rule(direction, s_host, d_host, s_port, d_port, protocol, action):
 
     ip_1 = "sudo iptables -A " + direction
     if action == "ACCEPT":
-        ip_1 += " -m state --state RELATED,ESTABLISHED"
-    if protocol != "any" and s_port != "any":
-        ip_1 += " -p " + protocol + " --dport " + str(s_port)
+        ip_1 += " -m state --state RELATED,ESTABLISHED" 
+    if protocol == "tcp" or protocol == "udp":
+        ip_1 += " -p " + protocol
+        if s_port != "any":
+            ip_1 += " --dport " + str(s_port)
         if d_port != "any":
             ip_1 += " --sport " + str(d_port)
     if d_host != "any":
@@ -39,6 +43,21 @@ def set_rule_block(chain, d_host):
     rule = "sudo iptables -A " + chain + " -m state --state NEW,ESTABLISHED,RELATED -d " + d_host + " -j DROP"
     proc = subprocess.Popen(rule.split(), stdout=subprocess.PIPE)
     output, error = proc.communicate()
+
+
+def set_rule_return(chain):
+    rule = "sudo iptables -A " + chain + " -j RETURN"
+    proc = subprocess.Popen(rule.split(), stdout=subprocess.PIPE)
+    output, error = proc.communicate()
+
+
+def set_rule_log_block(chain):
+    rule1 = 'sudo iptables -A ' + chain + ' -j LOG --log-level 6'
+    rule2 = 'sudo iptables -A ' + chain + ' -j DROP'
+    proc1 = subprocess.Popen(rule1.split(), stdout=subprocess.PIPE)
+    output, error = proc1.communicate()
+    proc2 = subprocess.Popen(rule2.split(), stdout=subprocess.PIPE)
+    output, error = proc2.communicate()
 
 
 def set_forward_to_chain(chain1, chain2): 

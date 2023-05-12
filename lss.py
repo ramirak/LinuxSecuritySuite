@@ -36,6 +36,16 @@ def check_installed_iptables():
         exit(0)
 
 
+def check_installed_syslog():
+    bin_file = "/sbin/syslog-ng"
+    if not os.path.isfile(bin_file):
+        print("Please install syslog-ng in order to see firewall logs.")
+
+
 create_default_policy()
 create_default_config()
+check_installed_iptables()
+check_installed_syslog()
 create_main_window()
+
+

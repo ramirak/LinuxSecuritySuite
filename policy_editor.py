@@ -18,7 +18,6 @@ def create_editor_buttons(root, frame1, frame2, treeview):
     # Create all buttons
     Button(frame1, text="Add rule", **button_args_small, command=lambda:add_tree_val(treeview, tuple([entry.get() for entry in entries]))).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="Remove rule", **button_args_small, command = lambda:delete_tree_val(treeview)).pack(pady=5,side=LEFT, expand=True)
-    Button(frame1, text="New policy", **button_args_small).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="Save rules", **button_args_small, command=lambda: save_polciy()).pack(pady=5,side=LEFT, expand=True) 
     Button(frame1, text="Mark active", **button_args_small, command=lambda: mark_active()).pack(pady=5,side=LEFT, expand=True)
     Button(frame1, text="Close", **button_args_small, command=lambda: root.destroy()).pack(pady=5,side=LEFT, expand=True)

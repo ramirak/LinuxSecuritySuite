@@ -11,7 +11,6 @@ title = "Linux Security Suite"
 def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
     buttons = [
             Button(LEFT_FRAME,text="Status", **button_args, command=lambda: update_window_text(text, 'systemctl status iptables.service ; echo -e "\n~~~ My Configurations: ~~~\n" ; cat data/config.json')),
-              Button(LEFT_FRAME,text="Scan", **button_args), 
               Button(LEFT_FRAME,text="Active connections", **button_args, command = lambda : update_window_text(text, 'netstat -tupn')),
               Button(LEFT_FRAME,text="Processes", **button_args, command =lambda: update_window_text(text, "ps -eM | awk '{up=toupper($5);a[up]}END{for(i in a) print i}'")),
               Button(LEFT_FRAME,text="Patch system", **button_args),
@@ -19,7 +18,7 @@ def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
               Button(RIGHT_FRAME,text="Apply policy", **button_args, command=lambda:apply_current_policy()),
               Button(RIGHT_FRAME,text="Edit policies", **button_args, command=lambda:edit_policies()),
               Button(RIGHT_FRAME,text="Apply blocklist", **button_args, command=lambda:apply_blocklist()),
-              Button(RIGHT_FRAME,text="Firewall Logs", **button_args)]
+              Button(RIGHT_FRAME,text="Firewall Logs", **button_args, command=lambda: update_window_text(text, 'sudo tail -50  /var/log/iptables.log'))]
     for b in buttons:
         b.bind('<Enter>', lambda e: e.widget.config(bg=hover_color))
         b.bind('<Leave>', lambda e: e.widget.config(bg=secondary_color))
