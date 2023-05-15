@@ -20,9 +20,9 @@ def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
 
     buttons = [
             Button(LEFT_FRAME,text="Security dashboard", **button_args, command=lambda: update_window_text(text, sec_status)),
+            Button(LEFT_FRAME,text="My rulebase", **button_args, command=lambda: update_window_text(text, 'sudo iptables -nL')),
               Button(LEFT_FRAME,text="Active connections", **button_args, command = lambda : update_window_text(text, 'netstat -tun')),
               Button(LEFT_FRAME,text="Processes", **button_args, command =lambda: update_window_text(text, "ps -eM | awk '{up=toupper($5);a[up]}END{for(i in a) print i}'")),
-              Button(LEFT_FRAME,text="Patch system", **button_args),
               Button(LEFT_FRAME,text="Exit", **button_args, command=lambda:root.destroy()), 
               Button(RIGHT_FRAME,text="Apply policy", **button_args, command=lambda:apply_current_policy()),
               Button(RIGHT_FRAME,text="Edit policies", **button_args, command=lambda:edit_policies()),
