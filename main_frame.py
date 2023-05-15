@@ -9,9 +9,18 @@ from policy import apply_current_policy, apply_blocklist
 title = "Linux Security Suite"
 
 def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
+    sec_status = '''echo -e "~~~ My Configurations: ~~~\n" ; 
+                cat data/config.json ; echo -e "\n" ; 
+                systemctl status iptables.service ; 
+                echo -e "\n" ;systemctl status apparmor ; 
+                echo -e "\n~~~ Listening ports ~~~ \n"; 
+                netstat -tuln ;
+                echo -e "\n~~~ Sessions ~~~ \n"; 
+                last | head -10'''
+
     buttons = [
-            Button(LEFT_FRAME,text="Security dashboard", **button_args, command=lambda: update_window_text(text, ' echo -e "~~~ My Configurations: ~~~\n" ; cat data/config.json ; echo -e "\n" ; systemctl status iptables.service ; echo -e "\n" ;systemctl status apparmor ; echo -e "\n~~~ Listening ports ~~~ \n"; netstat -tuln ' )),
-              Button(LEFT_FRAME,text="Active connections", **button_args, command = lambda : update_window_text(text, 'netstat -tupn')),
+            Button(LEFT_FRAME,text="Security dashboard", **button_args, command=lambda: update_window_text(text, sec_status)),
+              Button(LEFT_FRAME,text="Active connections", **button_args, command = lambda : update_window_text(text, 'netstat -tun')),
               Button(LEFT_FRAME,text="Processes", **button_args, command =lambda: update_window_text(text, "ps -eM | awk '{up=toupper($5);a[up]}END{for(i in a) print i}'")),
               Button(LEFT_FRAME,text="Patch system", **button_args),
               Button(LEFT_FRAME,text="Exit", **button_args, command=lambda:root.destroy()), 
@@ -62,7 +71,7 @@ def create_main_window():
     set_main_buttons(root, T, LEFT_FRAME, RIGHT_FRAME)
 
     # Init
-    update_window_text(T, "netstat -tupn")
+    update_window_text(T, "netstat -tun")
     root.mainloop()
 
 

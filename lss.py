@@ -3,6 +3,17 @@ from main_frame import create_main_window
 from json_handler import save_to_file 
 import os
 
+
+def print_logo():
+    logo = '''
+    .-.    .----. .----.    .---.  .----. .-. .-. .----. .----. .-.   .----.
+    | |   { {__  { {__     /  ___}/  {}  \\|  `| |{ {__  /  {}  \\| |   | {_  
+    | `--..-._} }.-._} }   \     }\\      /| |\\  |.-._} }\\      /| `--.| {__ 
+    `----'`----' `----'     `---'  `----' `-' `-'`----'  `----' `----'`----'
+    '''
+    print(logo)
+
+
 def check_data_folder():
     data_folder = "data"
     if not os.path.exists(data_folder):
