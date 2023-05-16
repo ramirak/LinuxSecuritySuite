@@ -17,7 +17,6 @@
 
 ## Screenshots
 
-```
 <p align="center">
 <img src="Screenshots/1.png" width="800">
 </p>
@@ -34,4 +33,3 @@
 <img src="Screenshots/4.png" width="800">
 </p>
 
-```
