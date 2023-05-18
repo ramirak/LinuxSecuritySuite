@@ -7,13 +7,14 @@
 - Apply them at any time by using the apply policy button.
 - Mark any policy as current active policy.
 - Use a blocklist file to block dozens of ip addresses before the main chains applies.
+- Ability to use domain names instead of IP addresses.
 - Show latest dropped packets logs
 - Monitor active connections and running processes
 
 ## Notes
 - Iptables must be installed on the system (comes preinstalled in most linux distros).
 - In order to see log files you must configure syslog-ng if it is not already comes with your linux.
-- python3 lss.py
+- ./lss.py
 
 ## Screenshots
 

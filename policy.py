@@ -1,8 +1,9 @@
 
-import subprocess
+import subprocess, socket
 import iptable_tools
 from iptable_tools import *
 from json_handler import *
+from ip_checks import *
 
 def load_policy(policy):
     print("Creating blocklist chain if it does not exists already..")
@@ -27,8 +28,14 @@ def load_policy(policy):
     print("Setting policy..")
     for rule in policy:
         for proto in rule['proto'].split():
-            set_rule(rule['dir'], rule['src'], rule['dst'], rule['sport'], rule['dport'], proto, rule['action'])
-    
+            direction = rule['dir']
+            src = get_ip_addr(rule['src'])
+            dst = get_ip_addr(rule['dst'])
+            sport = rule['sport']
+            dport = rule['dport']
+            action = rule['action']
+            if is_valid_chain(direction) and src != None and dst != None and is_valid_port(sport) and is_valid_port(dport) and is_valid_proto(proto) and is_valid_action(action):
+                set_rule(direction, src, dst, sport, dport, proto, action)
     print("Forwarding other packets to LOG_AND_DROP..")
     set_forward_to_chain("INPUT", "LOG_AND_DROP")
     set_forward_to_chain("OUTPUT", "LOG_AND_DROP")
@@ -55,8 +62,13 @@ def apply_blocklist():
         for line in file:
             ip_list.append(line.rstrip())
     for addr in ip_list:
-        print("Blocking " + addr)
-        set_rule_block("BLOCKLIST", addr)
+        print("Checking " + addr + "..")
+        addr = get_ip_addr(addr)
+        if addr is not None:
+            print("Blocking " + addr)
+            set_rule_block("BLOCKLIST", addr)
+            continue
+        print("Invalid IP or Domain..")
     set_rule_return("BLOCKLIST")
     print("Saving rulebase to /etc/iptables..")
     save_all()

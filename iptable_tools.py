@@ -1,4 +1,4 @@
-import subprocess
+import subprocess, os
 import socket
 
 
@@ -100,12 +100,8 @@ def is_valid_ip(address):
 
 
 def save_all():
-    c1 = "sudo iptables-save"
-    c2 = "sudo tee /etc/iptables/iptables.rules"
-    proc1 = subprocess.Popen(c1.split(), stdout=subprocess.PIPE)
-    proc1.wait()
-    subprocess.Popen(c2.split(), stdin=proc1.stdout, stdout=subprocess.PIPE).wait()
-
+    c = "sudo sh -c 'iptables-save > /etc/iptables/iptables.rules'"
+    os.system(c)
 
     
 
