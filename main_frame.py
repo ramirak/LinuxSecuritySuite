@@ -28,7 +28,7 @@ def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
               Button(RIGHT_FRAME,text="Apply policy", **button_args, command=lambda:apply_current_policy()),
               Button(RIGHT_FRAME,text="Edit policies", **button_args, command=lambda:edit_policies()),
               Button(RIGHT_FRAME,text="Apply blocklist", **button_args, command=lambda:apply_blocklist()),
-              Button(RIGHT_FRAME,text="Clear blocklist", **button_args, command=lambda: [ clear_chains("BLOCKLIST"), set_rule_return("BLOCKLIST"), save_all()]),
+              Button(RIGHT_FRAME,text="Clear blocklist", **button_args, command=lambda: [print("Clearing blocklist chain.."), clear_chains("BLOCKLIST"), set_rule_return("BLOCKLIST"), save_all()]),
               Button(RIGHT_FRAME,text="Firewall Logs", **button_args, command=lambda: update_window_text(text, 'sudo tail -50  /var/log/iptables.log'))]
     for b in buttons:
         b.bind('<Enter>', lambda e: e.widget.config(bg=hover_color))

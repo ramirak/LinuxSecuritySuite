@@ -46,7 +46,7 @@ def set_rule_block(chain, d_host):
 
 def set_rule_return(chain):
     rule = "sudo iptables -C " + chain + " -j RETURN" 
-    ret = subprocess.Popen(rule.split(), stdout=subprocess.PIPE).wait()
+    ret = subprocess.Popen(rule.split(), stderr=subprocess.DEVNULL).wait()
     if ret:
         rule = "sudo iptables -A " + chain + " -j RETURN" 
         subprocess.Popen(rule.split(), stdout=subprocess.PIPE).wait()
