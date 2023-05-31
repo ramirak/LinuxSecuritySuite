@@ -1,10 +1,10 @@
 from ui_tools import *
-
+from utils import *
 
 def create_editor_buttons(root, frame1, frame2, treeview):
     # Get data from jsons
-    all_policies = retrieve_from_file("data/policies.json")
-    my_config = retrieve_from_file("data/config.json")
+    all_policies = retrieve_from_file(get_data_dir() + "/policies.json")
+    my_config = retrieve_from_file(get_data_dir() + "/config.json")
 
     # Change policy menu
     drop_down, menu_var = create_dropdown(frame1, list(all_policies))
@@ -27,14 +27,14 @@ def create_editor_buttons(root, frame1, frame2, treeview):
         policy = []
         for child in treeview.get_children():
             policy.append(list_to_json(policy_keys,treeview.item(child)["values"]))
-        replace_val_from_key(menu_var.get(), policy, "data/policies.json")
+        replace_val_from_key(menu_var.get(), policy, get_data_dir() + "/policies.json")
         nonlocal all_policies
-        all_policies = retrieve_from_file("data/policies.json")
+        all_policies = retrieve_from_file(get_data_dir() + "/policies.json")
 
     def mark_active():
         nonlocal my_config
-        replace_val_from_key('active_policy', menu_var.get(), "data/config.json")
-        my_config = retrieve_from_file("data/config.json")
+        replace_val_from_key('active_policy', menu_var.get(), get_data_dir() + "/config.json")
+        my_config = retrieve_from_file(get_data_dir() + "/config.json")
  
     def update_table(tree):
         clear_all_tree_vals(tree)

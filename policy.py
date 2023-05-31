@@ -4,6 +4,7 @@ import iptable_tools
 from iptable_tools import *
 from json_handler import *
 from ip_checks import *
+from utils import *
 
 def load_policy(policy):
     print("Creating blocklist chain if it does not exists already..")
@@ -47,8 +48,8 @@ def load_policy(policy):
 
 
 def apply_current_policy():
-    my_policy_name = retrieve_from_file("data/config.json")["active_policy"]
-    policy = retrieve_from_file("data/policies.json")[my_policy_name]
+    my_policy_name = retrieve_from_file(get_data_dir() + "/config.json")["active_policy"]
+    policy = retrieve_from_file(get_data_dir() + "/policies.json")[my_policy_name]
     load_policy(policy)
 
 
@@ -58,7 +59,7 @@ def apply_blocklist():
     print("Clearing previous rules if any..")
     clear_chains("BLOCKLIST")
     ip_list = []
-    with open("data/addresses.list") as file:
+    with open(get_data_dir() + "/addresses.list") as file:
         for line in file:
             ip_list.append(line.rstrip())
     for addr in ip_list:

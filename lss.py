@@ -1,6 +1,7 @@
 
 from main_frame import create_main_window
-from json_handler import save_to_file 
+from json_handler import save_to_file
+from utils import *
 import os
 
 
@@ -15,16 +16,15 @@ def print_logo():
 
 
 def check_data_folder():
-    data_folder = "data"
+    data_folder = get_data_dir()
     if not os.path.exists(data_folder):
         os.mkdir(data_folder)
-    return data_folder
 
 
 def create_default_policy():
-    data_folder = check_data_folder()
+    check_data_folder()
 
-    policies_file = data_folder + "/policies.json"
+    policies_file = get_data_dir() + "/policies.json"
     if not os.path.isfile(policies_file):
         policy = {"Accept-all": [{"dir": "OUTPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}, 
                                  {"dir": "INPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}]}
@@ -34,7 +34,7 @@ def create_default_policy():
 def create_default_config():
     data_folder = check_data_folder()
 
-    conf_file = "data/config.json"
+    conf_file = get_data_dir() + "/config.json"
     if not os.path.isfile(conf_file):
         config = {"active_policy":"Accept-all"}
         save_to_file(conf_file, config)

@@ -4,6 +4,7 @@ from tkinter import ttk
 from json_handler import *
 from ui_tools import *
 from policy_editor import *
+from utils import *
 from policy import apply_current_policy, apply_blocklist
 from iptable_tools import clear_chains, set_rule_return, save_all
 
@@ -11,7 +12,7 @@ title = "Linux Security Suite"
 
 def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
     sec_status = '''echo -e "~~~ My Configurations: ~~~\n" ; 
-                cat data/config.json ; echo -e "\n" ; 
+                cat ''' + get_data_dir() + '''/config.json ; echo -e "\n" ; 
                 systemctl status iptables.service ; 
                 echo -e "\n" ;systemctl status apparmor ; 
                 echo -e "\n~~~ Listening ports ~~~ \n"; 
