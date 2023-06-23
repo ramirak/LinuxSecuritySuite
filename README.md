@@ -2,7 +2,7 @@
 ## Securing your Linux machines has never been easier !
 
 <p align="center">
-<img src="Screenshots/lss.png" width="300">
+<img src="Screenshots/lss.jpg" width="300">
 </p>
 
 ## Features
