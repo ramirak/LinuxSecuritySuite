@@ -1,6 +1,10 @@
 # Linux Security Suite (LSS)
 ## Securing your Linux machines has never been easier !
 
+<p align="center">
+<img src="Screenshots/lss.png" width="300">
+</p>
+
 ## Features
 - Choose between different policies, comes with pre-built policy for basic usage.
 - Add, edit, or remove rules from your chosen policy and save them to disk.
