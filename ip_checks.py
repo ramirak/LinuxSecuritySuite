@@ -52,6 +52,12 @@ def is_valid_ip(addr):
         print("Invalid IP..")
         return False
 
+def is_valid_ip2(addr):
+    try:
+        socket.inet_aton(addr)
+        return True
+    except socket.error:
+        return False
 
 def is_valid_domain(domain):
     return validators.domain(domain)

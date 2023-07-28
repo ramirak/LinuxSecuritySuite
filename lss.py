@@ -3,7 +3,7 @@ from main_frame import create_main_window
 from json_handler import save_to_file
 from utils import *
 import os
-
+from policy import PolicyKeys
 
 def print_logo():
     logo = '''
@@ -19,27 +19,28 @@ def check_data_folder():
     data_folder = get_data_dir()
     if not os.path.exists(data_folder):
         os.mkdir(data_folder)
+    
+    policy_folder = data_folder + "/Policies"
+    if not os.path.exists(policy_folder):
+        os.mkdir(policy_folder)
+
+    lists_folder = data_folder + "/Blocklists"
+    if not os.path.exists(policy_folder):
+        os.mkdir(policy_folder)
 
 
 def create_default_policy():
     check_data_folder()
 
-    policies_file = get_data_dir() + "/policies.json"
+    policies_file = get_data_dir() + "/Policies/Accept_all.policy"
     if not os.path.isfile(policies_file):
-        policy = {"Accept-all": [{"dir": "OUTPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}, 
-                                 {"dir": "INPUT", "src": "any", "dst": "any", "sport":"any", "dport": "any", "proto": "any", "action": "ACCEPT"}]}
+        keys = [key.name for key in PolicyKeys]
+        values1 = ["OUTPUT", "any", "any", "any", "any", "any", "ACCEPT"]
+        values2 = ["INPUT", "any", "any", "any", "any", "any", "ACCEPT"]
+        policy = [dict(zip(keys,values1)), dict(zip(keys,values2))]
         save_to_file(policies_file, policy)
 
-
-def create_default_config():
-    data_folder = check_data_folder()
-
-    conf_file = get_data_dir() + "/config.json"
-    if not os.path.isfile(conf_file):
-        config = {"active_policy":"Accept-all"}
-        save_to_file(conf_file, config)
         
-
 def check_installed_iptables():
     bin_file = "/sbin/iptables"
     if not os.path.isfile(bin_file):
@@ -54,7 +55,6 @@ def check_installed_syslog():
 
 
 create_default_policy()
-create_default_config()
 check_installed_iptables()
 check_installed_syslog()
 create_main_window()

@@ -4,15 +4,16 @@ from tkinter import ttk
 from json_handler import *
 from ui_tools import *
 from policy_editor import *
+from snapshots_editor import *
+from blocklist_editor import *
+from network_editor import *
 from utils import *
-from policy import apply_current_policy, apply_blocklist
 from iptable_tools import clear_chains, set_rule_return, save_all
 
 title = "Linux Security Suite"
 
 def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
     sec_status = '''echo -e "~~~ My Configurations: ~~~\n" ; 
-                cat ''' + get_data_dir() + '''/config.json ; echo -e "\n" ; 
                 systemctl status iptables.service ; 
                 echo -e "\n" ;systemctl status apparmor ; 
                 echo -e "\n~~~ Listening ports ~~~ \n"; 
@@ -26,10 +27,10 @@ def set_main_buttons(root, text, LEFT_FRAME, RIGHT_FRAME):
               Button(LEFT_FRAME,text="Active connections", **button_args, command = lambda : update_window_text(text, 'netstat -tun')),
               Button(LEFT_FRAME,text="Processes", **button_args, command =lambda: update_window_text(text, "ps -eM | awk '{up=toupper($5);a[up]}END{for(i in a) print i}'")),
               Button(LEFT_FRAME,text="Exit", **button_args, command=lambda:root.destroy()), 
-              Button(RIGHT_FRAME,text="Apply policy", **button_args, command=lambda:apply_current_policy()),
-              Button(RIGHT_FRAME,text="Edit policies", **button_args, command=lambda:edit_policies()),
-              Button(RIGHT_FRAME,text="Apply blocklist", **button_args, command=lambda:apply_blocklist()),
-              Button(RIGHT_FRAME,text="Clear blocklist", **button_args, command=lambda: [print("Clearing blocklist chain.."), clear_chains("BLOCKLIST"), set_rule_return("BLOCKLIST"), save_all()]),
+              Button(RIGHT_FRAME,text="My policies", **button_args, command=lambda:edit_policies()),
+              Button(RIGHT_FRAME,text="System snapshots", **button_args, command=lambda:edit_snapshots()),
+              Button(RIGHT_FRAME,text="Blocklists", **button_args, command=lambda:edit_blocklists()),
+              Button(RIGHT_FRAME,text="Network probe", **button_args, command=lambda:edit_network()),
               Button(RIGHT_FRAME,text="Firewall Logs", **button_args, command=lambda: update_window_text(text, 'sudo tail -50  /var/log/iptables.log'))]
     for b in buttons:
         b.bind('<Enter>', lambda e: e.widget.config(bg=hover_color))
@@ -45,6 +46,9 @@ def create_main_window():
     root.title(title) 
     center(root)
     
+    p1 = PhotoImage(file = 'Screenshots/lss_icon.png')
+    root.iconphoto(False, p1)
+
     # Set title
     header = Label(text=title, bg=main_color, fg=font_secondary_color, font=(font_family, 18, "bold", "italic"))
     header.bind('<Enter>', lambda e: e.widget.config(fg=hover_color))

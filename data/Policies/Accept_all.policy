@@ -1,0 +1,1 @@
+[{"DIRECTION": "OUTPUT", "SOURCE": "any", "DESTINATION": "any", "S_PORT": "any", "D_PORT": "any", "PROTOCOL": "any", "ACTION": "ACCEPT"}, {"DIRECTION": "INPUT", "SOURCE": "any", "DESTINATION": "any", "S_PORT": "any", "D_PORT": "any", "PROTOCOL": "any", "ACTION": "ACCEPT"}]

@@ -16,8 +16,12 @@ def list_to_json(keys, values):
 
 
 def replace_val_from_key(key, value, file_name):
-    data = retrieve_from_file(file_name)    
-    data[key] = value
+    data = None
+    if key !=  None:
+        data = retrieve_from_file(file_name)    
+        data[key] = value
+    else:
+        data = value
     save_to_file(file_name, data)
 
 

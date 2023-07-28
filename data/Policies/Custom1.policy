@@ -1,0 +1,1 @@
+ [{"dir": "OUTPUT", "src": "any", "dst": "any", "sport": "any", "dport": "any", "proto": "any", "action": "ACCEPT"}, {"dir": "INPUT", "src": "any", "dst": "any", "sport": "any", "dport": "any", "proto": "any", "action": "ACCEPT"}]
