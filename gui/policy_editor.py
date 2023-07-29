@@ -1,7 +1,7 @@
-from ui_tools import *
-from utils import *
+from gui.ui_tools import *
+from tools.utils import *
 from tkinter import PhotoImage
-from policy import *
+from policy.policy import *
 
 
 def create_editor_buttons(table_window):
@@ -51,10 +51,14 @@ def create_editor_buttons(table_window):
             print("Failed to execute operation - " + str(e))
 
     def update_table(tree):
-        clear_all_tree_vals(tree)
-        for row in all_policies[menu_var.get()].get_data():
-            columns = [ row[key.name] for key in PolicyKeys ]
-            tree.insert("", "end", values=tuple(columns))
+        try:
+            clear_all_tree_vals(tree)
+            for row in all_policies[menu_var.get()].get_data():
+                columns = [ row[key.name] for key in PolicyKeys ]
+                tree.insert("", "end", values=tuple(columns))
+        except Exception as e:
+            print("Failed to update table - " + str(e))
+
 
     def menu_change(*args):
         update_table(treeview)

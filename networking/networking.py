@@ -1,9 +1,9 @@
-from table import *
+from tools.table import *
 from scapy.all import *
 import ipaddress
 import socket
 import subprocess
-from utils import *
+from tools.utils import *
 
 class NetworkTable(Table):
 

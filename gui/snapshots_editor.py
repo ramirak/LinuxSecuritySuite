@@ -1,6 +1,6 @@
-from ui_tools import *
-from utils import *
-from snapshot import *
+from gui.ui_tools import *
+from tools.utils import *
+from snapshot.snapshot import *
 from tkinter import PhotoImage
 
 def create_editor_buttons(table_window):

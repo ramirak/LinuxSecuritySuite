@@ -1,7 +1,7 @@
 from enum import Enum
 import subprocess
 from pathlib import Path
-from table import *
+from tools.table import *
 import uuid
 from datetime import datetime
 

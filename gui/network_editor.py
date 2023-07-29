@@ -1,9 +1,9 @@
-from ui_tools import *
+from gui.ui_tools import *
 from tkinter import PhotoImage
 import os
-from networking import *
-from ip_checks import is_valid_ip2
-from utils import *
+from networking.networking import *
+from networking.ip_checks import is_valid_ip2
+from tools.utils import *
 
 def create_editor_buttons(table_window):
     root = table_window.window 

@@ -1,14 +1,14 @@
 import os, sys
 from tkinter import *
 from tkinter import ttk
-from json_handler import *
-from ui_tools import *
-from policy_editor import *
-from snapshots_editor import *
-from blocklist_editor import *
-from network_editor import *
-from utils import *
-from iptable_tools import clear_chains, set_rule_return, save_all
+from tools.json_handler import *
+from gui.ui_tools import *
+from gui.policy_editor import *
+from gui.snapshots_editor import *
+from gui.blocklist_editor import *
+from gui.network_editor import *
+from tools.utils import *
+from networking.iptable_tools import clear_chains, set_rule_return, save_all
 
 title = "Linux Security Suite"
 

@@ -1,9 +1,9 @@
 
-from main_frame import create_main_window
-from json_handler import save_to_file
-from utils import *
+from gui.main_frame import create_main_window
+from tools.json_handler import save_to_file
+from tools.utils import *
 import os
-from policy import PolicyKeys
+from policy.policy import PolicyKeys
 
 def print_logo():
     logo = '''

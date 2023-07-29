@@ -1,11 +1,10 @@
 from enum import Enum
 import subprocess, socket
-import iptable_tools
-from iptable_tools import *
-from json_handler import *
-from ip_checks import *
-from utils import *
-from table import *
+from networking.iptable_tools import *
+from tools.json_handler import *
+from networking.ip_checks import *
+from tools.utils import *
+from tools.table import *
 import glob
 
 class PolicyTable(Table):

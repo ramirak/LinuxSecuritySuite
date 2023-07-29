@@ -1,8 +1,8 @@
 
-from ui_tools import *
+from gui.ui_tools import *
 from tkinter import PhotoImage
 import os
-from blocklist import *
+from policy.blocklist import *
 
 
 def create_editor_buttons(table_window):

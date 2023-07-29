@@ -1,4 +1,4 @@
-from json_handler import *
+from tools.json_handler import *
 import os
 
 class Table:

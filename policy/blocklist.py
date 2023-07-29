@@ -1,8 +1,8 @@
-from table import *
-from utils import *
+from tools.table import *
+from tools.utils import *
 import glob
-from iptable_tools import *
-from ip_checks import *
+from networking.iptable_tools import *
+from networking.ip_checks import *
 
 class BlocklistTable(Table):
 

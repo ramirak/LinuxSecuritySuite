@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import os, sys
-from json_handler import *
+from tools.json_handler import *
 
 main_color = "#191A19"
 secondary_color = "#1E5128"
