@@ -26,8 +26,8 @@
 <p align="center">
 <img src="Screenshots/lss_icon.png" width="200">
 </p>
-<br>
-<img src="Screenshots/0.png" width="40%"></img> <img src="Screenshots/1.png" width="40%"></img> <img src="Screenshots/2.png" width="40%"></img> <img src="Screenshots/3.png" width="40%"></img> <img src="Screenshots/4.png" width="40%"></img> <img src="Screenshots/5.png" width="40%"></img>
-
+<p>
+<img src="Screenshots/0.png" width="45%"></img> <img src="Screenshots/1.png" width="45%"></img> <img src="Screenshots/2.png" width="45%"></img> <img src="Screenshots/3.png" width="45%"></img> <img src="Screenshots/4.png" width="45%"></img> <img src="Screenshots/5.png" width="45%"></img>
+</p>
 
 
